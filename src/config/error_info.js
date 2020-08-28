@@ -15,7 +15,8 @@ module.exports={
     upload_file_failed:{errnum:10008,message:"上传文件过大"},
     change_Info_failed:{errnum:10009,message:"修改失败"},
     create_weibo_failed:{errnum:10010,message:"创建微博失败"},
-    follow_failed:{errnum:10011,message:"关注失败"}
+    follow_failed:{errnum:10011,message:"关注失败"},
+    password_wrong:{errnum:10012 ,message:"密码错误"}
 }
 
 
