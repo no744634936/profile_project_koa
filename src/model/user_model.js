@@ -28,7 +28,6 @@ class UserModel{
         return response;
     }
 
-
     find_all=async()=>{
         let response=await Users.find({})
         console.log(response);

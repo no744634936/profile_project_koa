@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "ajv": "^6.12.4",
+    "ajv-errors": "^1.0.1",
     "art-template": "^4.13.2",
     "basic-auth": "^2.0.1",
     "debug": "^4.1.1",

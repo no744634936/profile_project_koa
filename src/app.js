@@ -7,6 +7,7 @@ const logger = require('koa-logger')
 const render = require('koa-art-template')
 const index = require('./routes/index')
 const user_route=require("./routes/user_route.js")
+const profile_route=require("./routes/profile.js")
 const path=require('path')
 const passport = require('koa-passport')
 const session = require('koa-session')
@@ -54,6 +55,7 @@ require("./myTool/passport.js")(passport)
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(user_route.routes(), user_route.allowedMethods())
+app.use(profile_route.routes(), user_route.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
