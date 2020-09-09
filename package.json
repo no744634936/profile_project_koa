@@ -6,13 +6,16 @@
     "start": "node bin/www",
     "dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon bin/www",
     "prd": "cross-env NODE_ENV=production pm2 start bin/www",
-    "test": "cross-env NODE_ENV=test jest --runInBand --forceExit --colors"
+    "client-install": "npm install --prefix client",
+    "client": "npm start --prefix client",
+    "both": "concurrently \"npm run dev\" \"npm run client\""
   },
   "dependencies": {
     "ajv": "^6.12.4",
     "ajv-errors": "^1.0.1",
     "art-template": "^4.13.2",
     "basic-auth": "^2.0.1",
+    "concurrently": "^5.3.0",
     "debug": "^4.1.1",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.7.0",
@@ -32,7 +35,6 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.2",
-    "jest": "^26.4.1",
     "nodemon": "^1.19.1",
     "supertest": "^4.0.2"
   }

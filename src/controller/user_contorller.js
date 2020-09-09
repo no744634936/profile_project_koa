@@ -14,6 +14,8 @@ const jwt = require('jsonwebtoken');
 class UserContorller{
 
     register=async(ctx,next)=>{
+
+        console.log(ctx.request.body);
         let {name,password,email}=ctx.request.body;
         let find_result=await userModel.find_one_by_email(email)
         if(find_result){   //不要写成 if(find_result.length>0) js中object没有length属性
@@ -26,6 +28,7 @@ class UserContorller{
         } catch (error) {
             console.error(error.message,error.stack);
             ctx.body=new Error(register_failed_info)
+            //应该要这样写，ctx.body=new Error(error.message) 将具体的错误信息传给前端。
         }
     }
 
