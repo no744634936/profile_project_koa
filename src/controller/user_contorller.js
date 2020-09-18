@@ -50,10 +50,10 @@ class UserContorller{
             let payload={ userid: find_result._id,username:find_result.name,avatar:find_result.avatar}
             let token = jwt.sign(payload,JWT_SECRET_KEY,{expiresIn:60*60});//expiresIn的单位为秒
             // return token
-            ctx.body={
+            ctx.body=new Success({
                 status:200,
                 token:"bearer "+token,  //必须加bearer这个字符串,注意中间有个空格
-            }
+            })
         }else{
             ctx.body=new Error(password_wrong)
             return

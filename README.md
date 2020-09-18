@@ -1,60 +1,71 @@
-"client-install": "npm install --prefix client",  //加载client 里面的node_modules
+建立alert component
+
+在http://localhost:5500/register 页面
+当后端将错误返回到前端的时候，要在前端显示错误提醒。
+5秒后就会自动给移除这些错误提醒。
+
+npm install redux react-redux redux-thunk redux-devtools-extension --save
+
+npm install uuid --save
 
 
 
-rafc : react arrow function component
-使用 rafce  来建立 function component 
+查看 app.js
+
+component/Register.js   //这是一个实验性的组件，没有用到redux，知道classNames 怎么用就可以了
+
+component/auth/Register_with_redux.js  //这个文件用到了redux，
+
+layout/Alert.js     //提示错误信息的组件
+
+redux/alert 文件夹里的文件
+
+redux/register 文件夹里的所有文件
 
 
-----------------------------------------------------------------
-npm install react-router-dom --save
-import {BrowserRouter, Route,Switch} from "react-router-dom"
-import { Link } from 'react-router-dom'
+
+通过login页面将 token 放入localstorage里面
+这样很多页面请求就可以携带这个token。
+component/Login_with_redux.js
+
+设置一个全局的header，查看 src/utils/setAuthToken.js 文件
+
+//放到本地的token包含了用户的信息，需要从token里解析出用户信息
+localStorage.setItem("token",action.payload.token) 
+
+//设置全局的header 然后每一个页面就都可以使用这个header了
+setAuthToken(action.payload.token)  
 
 
-----------------------------------------------------------------
-主要写了两个文件
-client /src/components/auth/Register.js 
-client /src/components/auth/Login.js 
 
-前端注册，登录，使用axios 将数据传递到后端，然后后端返回结果数据。
-注意这两个文件中的useState hook的用法，有点妙，
-
-使用axios 将数据传递到后端，然后后端返回结果数据。这个步骤应该使用 redux来做。
-这里为了看得懂，就没在这两个文件中使用redux。
-下一小结使用redux。可以对比下一小节看看这两个文件的区别。
-----------------------------------------------------------------------
-
-如果后端返回了数据验证失败的错误信息，前端要显示出来，
-npm install classnames --save
-需要下载dependency
-这个功能主要看下面这个文件
-client /src/components/auth/Register.js 
-
-如果发生错误文件里的这段代码可以给输入框打上红的边框
-
-className={classnames("form-control testclassname",{"is-invalid":errors.errnum})}
-
-但是因为css 有冲突，所以实际并没有显示红色边框，但是发生错误的时候，class 里面确
-实多了一个is-invalid
-
-is-invalid 是bootstrap里面的一个类名，它可以给html加上红色边框
-
-<input class="form-control testclassname is-invalid" type="text" placeholder="Name" name="name" required="" value="TEST TEST">
+从token里解析出用户信息，cd client
+npm install jwt-decode --save
 
 
----------------------------------------------------------------------
-
-classnames 的主要用法，给react的html元素添加多个class名
-主要用法如下
 
 
-var liClasses = classNames({
-    'main-class': true,
-    'activeClass': self.state.focused === index
-});
-
-return (<li className={liClasses}>{data.name}</li>);
 
 
-------------
+用来参考的网址
+https://stackblitz.com/edit/react-redux-registration-login-example?file=App%2FApp.js
+
+
+
+ーーーーーーーーーーーーーーーーーーーーーーーーーー
+首先注册功能，
+1，输入信息，如果信息输入错误，启动alert 报错。输入正确跳转到登录页面
+
+2，
+输入邮箱密码
+如果正确，就将后端返回的token放入localStorage，
+
+app.js 查看localStorage 里的token是否存在，存在的话就启用loadUser 方法。
+将user 的数据从后端取出。放进state里面。
+react的页面被刷新的话state会被重置，为了保留用户的登录信息，
+就要在每次页面刷新的时候，使用token向后端请求用户的数据并放入state
+
+
+3，退出功能，删除token即可
+
+
+4,登录前跟登录后 navbar 会变化。查看src/component/layout/Navbar.js 文件

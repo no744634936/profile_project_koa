@@ -1,11 +1,12 @@
-import React ,{useState,useEffect}from 'react'
-import axios from "axios"
+import React ,{useState}from 'react'
 import {connect} from "react-redux"
-import registerUser from "../../redux/register/registerAction.js"
+import { Redirect} from 'react-router-dom'
+import setAlert from "../../redux/alert/alertAction.js"
+import registerUser from "../../redux/register/registerAction.js" 
+import PropTypes from 'prop-types'
+import { withRouter } from 'react-router';
 
-import classnames from "classnames"
-
-function Register() {
+function Register(props) {
 
     const [formData,setFormData]=useState({
         name:"",
@@ -15,64 +16,42 @@ function Register() {
         errors:{}
     });
 
-    const {name,email,password,password2,errors}=formData;
+    const {name,email,password,password2}=formData;
 
     const setValue= e =>setFormData({...formData,[e.target.name]:e.target.value})
-
-    useEffect(() => {console.log(formData)},[formData.errors])
     
     const submitData=async (e) =>{
         e.preventDefault();
         if(password!==password2){
-            console.log("passwords do not match ");
+            props.setAlert("passwords do not match","danger");
+
         }else{
-            let new_user={name,email,password,}
-            try{
-                let config={
-                    header:{
-                        'Content-Type':'applicaiton/json'
-                    }
-                }
-                let response= await axios.post("/api/user/register",new_user,config);
-
-                console.log(response.data.message);
-                if(response.data.errnum!==0){
-                    setFormData(prevValue => ({...prevValue, errors:response.data}))
-
-                    //setFormData 是个异步函数，不能赋值之后立刻打印，
-                    // console.log(formData); 这样写是不对的
-                    //要使用 useEffect 来查看
-                    //像这样 useEffect(() => {console.log(formData)},[formData.errors])
-                }
-
-            }catch(error){
-                console.error(error);
-            }
+            console.log("good success");
+            props.registerUser({name,email,password})
         }
     }
 
-
+    //当上面的props.registerUser({name,email,password}) 方法触发
+    //registered 属性被改为true，页面会重新刷新一次，然后就会执行这段代码。跳转页面
+    if(props.registered){
+        return <Redirect to="/login"></Redirect>
+    }
     return (
         <div>
             <section className="container">
                 <h1 className="large text-primary">Sign Up</h1>
                 <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
                 
-                {
-                    errors.errnum && 
-                    (<div className="test"><p>{errors.message}</p></div>)
-                }
                 
                 <form className="form" onSubmit={e=>submitData(e)}>
                     <div className="form-group">
                         <input 
-                        className={classnames("form-control testclassname",{"is-invalid":errors.errnum})}
-                        type="text" 
+                        className="form-control testclassname"
                         placeholder="Name" 
                         name="name"
                         value={name}
                         onChange={e=>setValue(e)}
-                         required />
+                         />
                     </div>
 
                     <div className="form-group">
@@ -115,6 +94,18 @@ function Register() {
     )
 }
 
-export default Register
+Register.propTypes={
+    setAlert: PropTypes.func.isRequired,// props.setAlert 必须是函数,而且必须要传递setAlert这个函数到props
+    registerUser: PropTypes.func.isRequired,
+    registered:PropTypes.bool.isRequired,
+}
+
+const mapStatetoProps=(state)=>{
+    return{
+        registered:state.register.registered
+    }
+}
+
+export default withRouter(connect(mapStatetoProps,{setAlert,registerUser})(Register))
 
 

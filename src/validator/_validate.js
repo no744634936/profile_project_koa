@@ -4,10 +4,9 @@
  */
 
 
-const Ajv=require("ajv")
-const ajv=new Ajv({
-   //  allErrors:true
-})
+var Ajv = require('ajv');
+var ajv = new Ajv({allErrors: true, jsonPointers: true});
+require('ajv-errors')(ajv /*, {singleError: true} */);
 
 
 /**
@@ -15,11 +14,11 @@ const ajv=new Ajv({
  * @param {object} schema data 等待校验的数据
  */
 validate_data=(schema,data={})=>{
-   let valid=ajv.validate(schema,data)
+   let valid=ajv.compile(schema)
 
    //如果验证没有通过,就返回一个错误，如果通过了就不需要返回认识的东西
-   if(!valid){
-       return ajv.errors[0]   //返回数组里的第一个错误
+   if(!valid(data)){
+       return valid.errors   //返回所有错误
    }
 }
 

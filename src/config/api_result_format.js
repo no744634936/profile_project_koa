@@ -1,11 +1,11 @@
 class Base{
-    constructor({errnum,data,message}){
+    constructor({errnum,data,messages}){
         this.errnum=errnum
         if(data){
             this.data=data
         }
-        if(message){
-            this.message=message
+        if(messages){
+            this.messages=messages
         }
     }
 }
@@ -28,8 +28,8 @@ class Base{
 
 class Error extends Base{
     //api错误时的错误code是不一样的，错误message也不一样
-    constructor({errnum,message}){
-        super({errnum,message})
+    constructor({errnum,messages}){
+        super({errnum,messages})
     }
 }
 
