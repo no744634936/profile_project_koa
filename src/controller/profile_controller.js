@@ -10,17 +10,15 @@ const profile_model = require("../model/profile_model.js")
 class ProfileController{
     add_or_edit_profile_info=async(ctx,next)=>{
 
-        let {handle,company,website,location,
+        let {company,website,location,
             status,skills,bio,github_user_name,
             wechat,QQ,facebook,line}=ctx.request.body
-            console.log("hahah");
-            console.log(typeof skills);
+
         //如果前端不传值进来，那么这些变量都会是undefind。
         //如果skills 是选填项那么，那么就要这样写 skills: skills ? skills.split(","):null
         //因为对undefind后面跟任何方法都会报错。
         const new_profile={
             userId:ctx.state.user._id,
-            handle,
             company,
             website,
             location,
@@ -35,11 +33,11 @@ class ProfileController{
             if(find_result){
                 //find_resule 不为空就更新
                 let result=await ProfileModel.update_profile(new_profile);
-                ctx.body=result;
+                ctx.body=new Success(result);
             }else{
                 //find_resule 为空就创建记录
                 let result=await ProfileModel.create_profile(new_profile);
-                ctx.body=result;
+                ctx.body=new Success(result);
             }
 
         }catch(e){
@@ -54,7 +52,7 @@ class ProfileController{
             let userId=ctx.params.userId;
             let result=await ProfileModel.find_one_by_userId(userId);
             if(result){
-                ctx.body=result
+                ctx.body=new Success(result)
             }else{
                 //如果没有找到数据
                 ctx.body=new Error(record_not_exist)
@@ -148,8 +146,8 @@ class ProfileController{
             //找到要删除的experience数组里的元素的位置。
             let removeIndex=profile.education.map(item=>item.id).indexOf(eduId);
 
-            console.log(eduId);
-            console.log(removeIndex);
+            // console.log(eduId);
+            // console.log(removeIndex);
             
             profile.education.splice(removeIndex,1);
             await profile.save();

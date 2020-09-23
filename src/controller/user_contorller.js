@@ -62,8 +62,8 @@ class UserContorller{
 
     get_current_user=async(ctx,next)=>{
         ctx.body={
-            id:ctx.state.user._id,
-            name:ctx.state.user.name,
+            userid:ctx.state.user._id,
+            username:ctx.state.user.name,
             email:ctx.state.user.email,
             avatar:ctx.state.user.avatar,
         }

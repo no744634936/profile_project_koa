@@ -6,7 +6,7 @@ import {connect} from "react-redux"
 
 function Alert(props) {
     return (
-        <div>
+        <div style={{marginTop:"100px"}}>
             {
                 props.alerts!==null && props.alerts.length>0? (
                     props.alerts.map(alert=>{

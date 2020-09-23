@@ -7,11 +7,6 @@ let profileSchema=new mongoose.Schema({
         ref:"users",
         required:true,
     },
-    handle:{//有什么用？ 这个没用，不用管他
-        type:String,
-        required:true,
-        max:40,
-    },
     company:{
         type:String
     },

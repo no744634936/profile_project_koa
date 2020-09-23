@@ -8,11 +8,6 @@ const {data_validataion_failed}=require("../config/error_info.js")
 const SCHEMA = {
     type: 'object',
     properties: {
-        handle: {
-            type: 'string',
-            maxLength: 40,
-            minLength: 2
-        },
         status: {
             type: 'string',
             maxLength: 255,
@@ -41,10 +36,11 @@ validate_profile_info=async(ctx,next)=>{
 
     //data为用户通过路由传递的数据
     let data=ctx.request.body
-    let err=validate_data(SCHEMA,data)
-    console.log(err);
-    if(err){
-        ctx.body=new Error(data_validataion_failed)
+    let errs=validate_data(SCHEMA,data)
+    console.log(errs);
+    if(errs){
+        let err_messages=errs.map(err=>err.message);
+        ctx.body={errnum:100020,messages:err_messages}
         return // 不再执行后面的程序
     }
 

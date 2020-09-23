@@ -1,4 +1,4 @@
-import {LOGIN_REQUEST,LOGIN_SUCCESSED,LOGIN_FAILED,LOGOUT,USER_LOADED,USER_LOAD_FAILED} from "./authenticationTypes.js"
+import {LOGIN_REQUEST,LOGIN_SUCCESSED,LOGIN_FAILED,LOGOUT,USER_LOADED,USER_LOAD_FAILED,DELETE_ACCOUNT} from "./authenticationTypes.js"
 import setAuthToken from "../../utils/setAuthToken.js"
 import jwt_decode from "jwt-decode"
 
@@ -34,6 +34,7 @@ const authenticationReducer=(state=initialState,action)=>{
         case LOGIN_FAILED: 
         case USER_LOAD_FAILED:
         case LOGOUT:
+        case DELETE_ACCOUNT:
             localStorage.removeItem("token")
             return{
                 isAuthenticated:false, 
