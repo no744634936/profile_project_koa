@@ -3,7 +3,9 @@ import { GET_PROFILE,GET_PROFILE_FAILED,
          Add_EXPERIENCE,
          Add_Education,
          DELETE_EXPERIENCE,
-         DELETE_EDUCATION} from "./profileTypes";
+         DELETE_EDUCATION,
+         GET_ALL_PROFILES,
+         GET_REPOS} from "./profileTypes";
 
 const initialState={
     profile:null,
@@ -45,6 +47,18 @@ const profileReducer=(state=initialState,action)=>{
                 repos:[],
                 loading:false,
                 error:{},
+            }
+        case GET_ALL_PROFILES:
+            return{
+                ...state,
+                profiles:action.payload,
+                loading:false,
+            }
+        case GET_REPOS:
+            return{
+                ...state,
+                repos:action.payload,
+                loading:false,
             }
         default:
             return state 

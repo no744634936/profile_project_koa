@@ -12,6 +12,7 @@ import {deleteAccount} from "../../redux//authentication//authenticationAction.j
 
 function Dashboard({getCurrentUserProfile,profileData,userData:{username,userid},deleteAccount}) {
 
+    // console.log("userData",userData);
     //有props 的时候不用直接在useEffect里面使用props，要解构之后iu将必要的元素放进useEffect函数里面
     useEffect(()=>{
         getCurrentUserProfile(userid);

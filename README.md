@@ -1,26 +1,19 @@
-//私有路由是固定的写法，记下来就可以了，不用弄懂
-//只要看 isAuthencated 就可以了
-//私有路径不能直接在浏览器的输入框里输入路径后跳转，
-  而必须登录后通过点击链接的方式跳转
+
+这一节写了这两个路由
+
+<Route exact path="/profiles" component={Profiles}></Route>
+<Route exact path="/user/profile/:userId" component={Profile}></Route>
 
 
-app.js 文件里有使用 PrivateRoute
-查看privateRoute/ProviateRoute.js
+这一节里有两个bug。
 
------------------------------------------------
+1、https://www.udemy.com/course/mern-stack-front-to-back/learn/lecture/17075594#overview
 
+这个问题还不知道什么意思
 
-1,没有取得profile的数据的时候要显示正在加载的图片，就是那个转圈的图片，
+2，我登陆进去看了一个人的profile之后，退出来再看另一个人的profile
+  因为state没有更新所以，github repo的内容是一样的，除非我手动刷新页面。
 
-2，点击logout的时候要清除profile的数据。
+  http://localhost:5500/user/profile/5f6b032c378c21209027ead8
 
-
-在http://localhost:5500/dashboard 页面实现
-3,添加profile 功能
-
-4,修改profile 功能
-
-5，添加教育,经历 功能
-
-6，删除教育，经历
-7，注销用户，删除账号，删除post(删除post这个功能没写)
+  http://localhost:5500/user/profile/5f4b78a261ec7d3248e4a725

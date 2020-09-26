@@ -7,7 +7,9 @@ import {GET_PROFILE,
         DELETE_EXPERIENCE,
         DELETE_EDUCATION,
         CLEAR_PROFILE_DATA,
-        DELETE_ACCOUNT} from "./profileTypes.js"
+        DELETE_ACCOUNT,
+        GET_ALL_PROFILES,
+        GET_REPOS} from "./profileTypes.js"
 
 
 //get current user profile
@@ -68,6 +70,13 @@ const clearProfile=()=>{
     }
 }
 
+const getProfiles=(data)=>{
+    return{
+        type:GET_ALL_PROFILES,
+        payload:data
+    }
+}
+
 
 export const getCurrentUserProfile=(userId)=>{
     return async(dispatch)=>{
@@ -84,6 +93,59 @@ export const getCurrentUserProfile=(userId)=>{
             dispatch(getUserProfileFailed(err))
         }
 
+    }
+}
+
+//get all profiles
+export const getAllProfiles=()=>{
+    return async(dispatch)=>{
+        try{
+            const response=await axios.get("/api/all_profiles")
+            console.log(response);
+            if(response.data.errnum===0){
+                dispatch(getProfiles(response.data.data))
+            }else{
+                dispatch(getUserProfileFailed(response.data.messages))
+            }
+
+        }catch(err){
+            dispatch(getUserProfileFailed(err))
+        }
+
+    }
+}
+
+
+//get profile by id 跟getCurrentUserProfile 一样
+export const getProfileById=(userId)=>{
+    return async(dispatch)=>{
+        try{
+            const response=await axios.get(`/api/profile/user/${userId}`)
+            console.log(response);
+            if(response.data.errnum===0){
+                dispatch(getUserProfile(response.data.data))
+            }else{
+                dispatch(getUserProfileFailed(response.data.messages))
+            }
+
+        }catch(err){
+            dispatch(getUserProfileFailed(err))
+        }
+    }
+}
+
+export const getGithubRepos=(username)=>{
+    return async(dispatch)=>{
+        try{
+            const response=await axios.get(`/api/profile/github/${username}`);
+            if(response.data.errnum===0){
+                dispatch({type:GET_REPOS,payload:response.data.data})
+            }else{
+                dispatch(setAlert(response.data.messages))
+            }
+        }catch(err){
+            dispatch(getUserProfileFailed(err))
+        }
     }
 }
 

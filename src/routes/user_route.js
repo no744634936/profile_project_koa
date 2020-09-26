@@ -11,7 +11,6 @@ router.post("/api/user/register",validate_user_register,userController.register)
 
 router.post("/api/user/login",userController.login)   //没有写登录验证
 
-
 /**
  * @description 返回当前用户的信息
  * @access 私密登录后才能用

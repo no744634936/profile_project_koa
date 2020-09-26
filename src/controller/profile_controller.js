@@ -6,6 +6,8 @@ const {
 }=require("../config/error_info.js")
 const ProfileModel=require("../model/profile_model.js")
 const profile_model = require("../model/profile_model.js")
+const fetch = require("node-fetch");
+const {githubClientId,githubSecret}=require("../config/constant.js")
 
 class ProfileController{
     add_or_edit_profile_info=async(ctx,next)=>{
@@ -66,7 +68,7 @@ class ProfileController{
         try{
             let result=await ProfileModel.find_all_profiles();
             if(result){
-                ctx.body=result
+                ctx.body=new Success(result)
             }else{
                 //如果没有找到数据
                 ctx.body=new Error(record_not_exist)
@@ -165,6 +167,19 @@ class ProfileController{
             await ProfileModel.delete_account(current_userId)
             ctx.body=new Success()    ////返回 {errnum:0,{}} 删除数据成功
         }catch(e){
+            console.error(e);
+            ctx.body=new Error(system_error)
+        }
+    }
+
+    get_github_repos=async(ctx,boty)=>{
+        try{
+            console.log("hahah");
+            const response=await fetch(`https://api.github.com/users/${ctx.params.username}/repos?per_page=5&
+            sort=created:asc&client_id=${githubClientId}&client_secret=${githubSecret}`)
+            const result=await response.json();
+            ctx.body=new Success(result)
+        }catch(err){
             console.error(e);
             ctx.body=new Error(system_error)
         }

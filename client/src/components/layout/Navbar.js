@@ -13,6 +13,7 @@ const Navbar=({loginData:{isAuthenticated,user_data,loading},logoutAction})=> {
 
     const authLinks=(
         <ul>
+            <li><Link to="/profiles">profiles</Link></li>
             <li><Link to="/dashboard">Dashboard</Link></li>
             <li><a href="#!" onClick={logoutAction}>logout</a></li>
         </ul>

@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import {Link,withRouter} from "react-router-dom"
+import {withRouter} from "react-router-dom" //withRouter 是为了使用history
 import PropTypes from 'prop-types'
 import {connect} from "react-redux"
 import {addEducation} from "../../redux/profile/profileAction.js"

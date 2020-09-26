@@ -17,6 +17,9 @@ import EditProfile from "./components/profileForms//EditProfile.js"
 import AddExperience from "./components/profileForms/AddExperience.js"
 import AddEducation from './components/profileForms/AddEducation.js';
 
+import Profiles from "./components/profiles/Profiles.js"
+import Profile from "./components/profile/Profile.js"
+
 function App() {
 
     useEffect(()=>{
@@ -38,6 +41,9 @@ function App() {
                     <PrivateRoute exact path="/edit-profile" component={EditProfile}></PrivateRoute>
                     <PrivateRoute exact path="/add-experience" component={AddExperience}></PrivateRoute>
                     <PrivateRoute exact path="/add-education" component={AddEducation}></PrivateRoute>
+                   
+                    <Route exact path="/profiles" component={Profiles}></Route>
+                    <Route exact path="/user/profile/:userId" component={Profile}></Route>
                 </Switch>
             </div>
         </BrowserRouter>
